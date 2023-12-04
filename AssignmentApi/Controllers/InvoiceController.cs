@@ -1,4 +1,5 @@
-﻿using AssignmentApi.Models;
+﻿using AssignmentApi.Dtos;
+using AssignmentApi.Models;
 using AssignmentApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,31 @@ namespace AssignmentApi.Controllers
             _invoiceService = invoiceService;
         }
 
+        [HttpGet("/invoices")]
+        public async Task<ActionResult> GetInvoices()
+        {
+            try
+            {
+                return Ok(await _invoiceService.GetInovices());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddInvoice([FromBody] Invoice inv) {
-            return Ok(await _invoiceService.CreateInvoice(inv));
+            try
+            {
+                return Ok(await _invoiceService.CreateInvoice(inv));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpPut("{id}")]
@@ -25,10 +48,6 @@ namespace AssignmentApi.Controllers
             try
             {
                 return Ok(await _invoiceService.EditInvoice(id, invoice));
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

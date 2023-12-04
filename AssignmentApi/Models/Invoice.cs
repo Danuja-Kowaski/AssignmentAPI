@@ -6,14 +6,7 @@ namespace AssignmentApi.Models
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
-        public decimal? TotalAmount
-        {
-            get
-            {
-                return InvoiceLines?.Sum(line => line.LineAmount);
-            }
-        }
-
-        public List<InvoiceLine>? InvoiceLines { get; set; }
+        public decimal TotalAmount { get; set; }
+        public ICollection<InvoiceLine> InvoiceLines { get; set; }
     }
 }
